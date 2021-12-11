@@ -53,7 +53,7 @@ tokens = (
 
     # I
     'I_O', 'IDENTIFICATION', 'IF', 'IN', 'INDEX', 'INDEXED', 'INDICATE', 'INITIAL', 'INITIALIZE', 
-    'INPUT', 'INPUT_OUTPUT', 'INSPECT', 'INSTALLATION', 'INTO', 'INVALID', 'IS',
+    'INPUT', 'INPUT_OUTPUT', 'INSPECT', 'INSTALLATION', 'INTO', 'INVALID', 'IS', 'ID',
     
     # J
     'JUST', 'JUSTIFIED',
@@ -475,6 +475,9 @@ def t_ENABLED (t):
 def t_END (t):
     r'END'
     return t
+def t_END_IF (t):
+    r'END-IF'
+    return t
 def t_ENTER (t):
     r'ENTER'
     return t
@@ -647,7 +650,9 @@ def t_INVALID (t):
 def t_IS (t):
     r'IS'
     return t
-
+def t_ID (t):
+    r'ID'
+    return t
 
 
 # J
@@ -1316,40 +1321,43 @@ def t_STRING(t):
 
 #instanciamos un objeto lex
 lexer = lex.lex()
-script = 'entrada.cbl' #cargamos el archivo
-scriptfile = open(script, 'r')  #abrimos el archivo
-scriptdata = scriptfile.read() #se lee el archivo
-lexer.input(scriptdata) #entrada del texto a analizar
 
-tbl = dict()
-linea=[]
-tok_val=[]
-lexema=[]
-cont=[]
-#banner de color
-print (chr(27)+"[0;36m"+"INICIO DEL ANÁLISIS LÉXICO"+chr(27)+"[0m")
-i = 1
-while True:
-    #analiza los patrones
-    tok = lexer.token()
-    if not tok:
-        break
-    linea.append(str(tok.lineno))
-    tok_val.append(str(tok.type))
-    lexema.append(str(tok.value))
-    #IMPRESION LINEA POR LINEA
-    cont.append(i)
-    i += 1
-tbl['linea'] = linea
-tbl['Tipo de token'] = tok_val
-tbl['Valor-lexema'] = lexema
-df = pd.DataFrame(tbl)
-#print(df.to_markdown(index=False)) 
-print("\n================IMPRESION EN TABLA CON FORMATO==================\n")
-print(tabulate(df, headers = 'keys', tablefmt = 'psql', showindex=cont))
+if __name__ == '__main__':
+    script = 'prueba1.cbl' #cargamos el archivo
+    scriptfile = open(script, 'r')  #abrimos el archivo
+    scriptdata = scriptfile.read() #se lee el archivo
+    lexer.input(scriptdata) #entrada del texto a analizar
 
-print (chr(27)+"[0;36m"+"FIN DEL ANÁLISIS LÉXICO"+chr(27)+"[0m")
+    tbl = dict()
+    linea=[]
+    tok_val=[]
+    lexema=[]
+    cont=[]
+    #banner de color
+    print (chr(27)+"[0;36m"+"INICIO DEL ANÁLISIS LÉXICO"+chr(27)+"[0m")
+    i = 1
+    while True:
+        #analiza los patrones
+        tok = lexer.token()
+        if not tok:
+            break
+        linea.append(str(tok.lineno))
+        tok_val.append(str(tok.type))
+        lexema.append(str(tok.value))
+        #IMPRESION LINEA POR LINEA
+        cont.append(i)
+        i += 1
+
+    tbl['linea'] = linea
+    tbl['Tipo de token'] = tok_val
+    tbl['Valor-lexema'] = lexema
+    df = pd.DataFrame(tbl)
+    #print(df.to_markdown(index=False)) 
+    print("\n================ ANALISIS LEXICO ==================\n")
+    print(tabulate(df, headers = 'keys', tablefmt = 'psql', showindex=cont))
+
+    print (chr(27)+"[0;36m"+"FIN DEL ANÁLISIS LÉXICO"+chr(27)+"[0m")
 
 
-#la x puede ser un identificador una X o mas X o un 9 o mas 9
+    #la x puede ser un identificador una X o mas X o un 9 o mas 9
 
