@@ -2,9 +2,9 @@
 import sys
 import ply.yacc as yacc
 from cobol_lexer import tokens #Se importan los tokens declarados en el analizador lexico.
-count=0
+
 VERBOSE = 1
-estado=True
+
 
 #A continuación se declaran las precedencias.
 
@@ -212,10 +212,6 @@ parser = yacc.yacc('SLR')
 script = 'entrada.cbl' #En esta linea se agrega el nombre del archivo .js que se va analizar
 scriptfile = open(script, 'r') #Con esta linea abrimos el archivo .cbl
 scriptdata = scriptfile.read() #Con esta linea leemos el archivo .cbl
-
-with open('entrada.cbl') as myfile:
-    count = sum(1 for line in myfile)
-#print(count)
 scriptfile.close
 #print (scriptdata)
 
